@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>To do list</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+</head>
+<body class="text-center pt-40 flex flex-col items-center [background:bisque]">
+    <h1 class="text-3xl font-light text-center [word-spacing:1em]">To Do List</h1>
+    <h2 id="wynik">0 / 0 | 0%</h2>
+    <form onsubmit="dodaj(event)" method="get" class="mt-4">
+        <input id="task" type="text" name="task" placeholder="Add a new task..." class="border-2 rounded-md p-4 shadow-xl">
+        <button type="submit" class="transition-colors duration-300 p-5 bg-yellow-800 text-white rounded-md hover:bg-yellow-900 ">Add Task</button>
+    </form>
+    <ul class="mt-4 border-2 p-10 w-2/3 text-center bg-white rounded-md" id="list"><li></li></ul>
+    <script>
+        function dodaj(event) {
+            event.preventDefault(); // Prevent form submission
+            const taskInput = document.getElementById('task');
+            const task = taskInput.value;
+            if (task.trim() !== '') {
+                const li = document.createElement('li');
+                const checkbox = document.createElement('input');
+
+                checkbox.type = "checkbox";
+                checkbox.className = "mr-2 w-4 h-4 accent-blue-500";
+                checkbox.addEventListener("change", zmienWynik);
+
+                li.className = "flex items-center gap-2";
+
+                li.append(checkbox, document.createTextNode(task));
+
+                document.getElementById('list').appendChild(li);
+                
+            }else{
+                alert("Please enter the name of the task!");
+            }
+            taskInput.value = ''; // Clear the input field
+        }
+
+        function zmienWynik(){
+            const checked = document.querySelectorAll('#list input[type="checkbox"]:checked').length;
+            const allCB = document.querySelectorAll('#list input[type="checkbox"]').length;
+            const prc = ((checked/allCB)*100).toFixed(2);
+
+            document.getElementById('wynik').innerHTML = `${checked} / ${allCB} | ${prc}%`;
+        }
+    </script>
+</body>
+</html>
