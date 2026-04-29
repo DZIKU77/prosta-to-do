@@ -7,11 +7,16 @@
     <script src="https://cdn.tailwindcss.com"></script>
 </head>
 <body class="text-center pt-40 flex flex-col items-center [background:bisque]">
+    <section class="flex mb-10">
+        <button id="red" onclick="setRed()" class="bg-red-400 p-5 rounded-full border border-[1px] border-black mr-2"></button>
+        <button id="red" onclick="setBlue()" class="bg-blue-400 p-5 rounded-full border border-[1px] border-black mr-2"></button>
+        <button id="red" onclick="setDef()" class="[background:bisque] -400 p-5 rounded-full border border-[1px] border-black mr-2"></button>
+    </section>
     <h1 class="text-3xl font-light text-center [word-spacing:1em]">To Do List</h1>
     <h2 id="wynik">0 / 0 | 0%</h2>
     <form onsubmit="dodaj(event)" method="get" class="mt-4">
         <input id="task" type="text" name="task" placeholder="Add a new task..." class="border-2 rounded-md p-4 shadow-xl">
-        <button type="submit" class="transition-colors duration-300 p-5 bg-yellow-800 text-white rounded-md hover:bg-yellow-900 ">Add Task</button>
+        <button id="addBtn" type="submit" class="transition-colors duration-300 p-5 bg-yellow-800 text-white rounded-md hover:bg-yellow-900 ">Add Task</button>
     </form>
     <ul class="mt-4 border-2 p-10 w-2/3 text-center bg-white rounded-md" id="list"><li></li></ul>
     <script>
@@ -46,6 +51,21 @@
 
             document.getElementById('wynik').innerHTML = `${checked} / ${allCB} | ${prc}%`;
         }
+
+        function setRed() {
+            document.body.className = "bg-red-300 text-white text-center pt-40 flex flex-col items-center";
+            document.getElementById('addBtn').className = "transition-colors duration-300 p-5 bg-red-800 text-white rounded-md hover:bg-red-900";
+        }
+
+        function setBlue(){
+            document.body.className = "text-center pt-40 flex flex-col items-center text-white bg-blue-500";
+            document.getElementById('addBtn').className = "transition-colors duration-300 p-5 bg-blue-800 text-white rounded-md hover:bg-blue-900";
+        }
+
+        function setDef() {
+            document.body.className = "text-center pt-40 flex flex-col items-center [background:bisque]";
+            document.getElementById('addBtn').className = "transition-colors duration-300 p-5 bg-yellow-800 text-white rounded-md hover:bg-yellow-900 ";
+        }   
     </script>
 </body>
 </html>
