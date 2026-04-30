@@ -19,7 +19,7 @@
         <button id="addBtn" type="submit" class="transition-colors duration-300 p-5 bg-yellow-800 text-white rounded-md hover:bg-yellow-900 ">Add Task</button><br>
     </form>
         <button onclick="delSel()" id="delSel" type="button" class="mt-5 pl-10 pr-10 pt-5 pb-5 border w-70 rounded-full border-black">Delete Selected</button>
-    <ul class="mt-4 border-2 p-10 w-2/3 text-center bg-white rounded-md" id="list"><li></li></ul>
+    <ul class="mt-4 border-2 p-10 w-2/3 text-center bg-white rounded-md" id="list"></ul>
     <script>
         function dodaj(event) {
             event.preventDefault(); // Prevent form submission
@@ -82,6 +82,10 @@
             const allCB = document.querySelectorAll('#list input[type="checkbox"]').length;
             const prc = ((checked/allCB)*100).toFixed(2);
 
+            if(isNaN(prc)){
+                document.getElementById('wynik').innerHTML = `0 / 0 | 0%`;
+                return;
+            }
             document.getElementById('wynik').innerHTML = `${checked} / ${allCB} | ${prc}%`;
         }
 
