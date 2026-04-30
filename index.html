@@ -16,8 +16,9 @@
     <h2 id="wynik">0 / 0 | 0%</h2>
     <form onsubmit="dodaj(event)" method="get" class="mt-4">
         <input id="task" type="text" name="task" placeholder="Add a new task..." class="border-2 rounded-md p-4 shadow-xl">
-        <button id="addBtn" type="submit" class="transition-colors duration-300 p-5 bg-yellow-800 text-white rounded-md hover:bg-yellow-900 ">Add Task</button>
+        <button id="addBtn" type="submit" class="transition-colors duration-300 p-5 bg-yellow-800 text-white rounded-md hover:bg-yellow-900 ">Add Task</button><br>
     </form>
+        <button onclick="delSel()" id="delSel" type="button" class="mt-5 pl-10 pr-10 pt-5 pb-5 border w-70 rounded-full border-black">Delete Selected</button>
     <ul class="mt-4 border-2 p-10 w-2/3 text-center bg-white rounded-md" id="list"><li></li></ul>
     <script>
         function dodaj(event) {
@@ -42,6 +43,15 @@
                 alert("Please enter the name of the task!");
             }
             taskInput.value = ''; // Clear the input field
+        }
+
+        function delSel() {
+            const checkedBoxes = document.querySelectorAll('#list input[type="checkbox"]:checked');
+            checkedBoxes.forEach(checkbox => {
+                const li = checkbox.parentElement;
+                li.remove();
+            });
+            zmienWynik(); // Update the result after deletion
         }
 
         function zmienWynik(){
