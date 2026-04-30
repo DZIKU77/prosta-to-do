@@ -39,6 +39,20 @@
 
                 document.getElementById('list').appendChild(li);
                 
+                // localStorage is a web API that stores key-value pairs in the browser's local storage.
+                // Data persists across page reloads and browser sessions.
+                // It only stores strings, so we use JSON.stringify() to convert objects/arrays to strings,
+                // and JSON.parse() to convert back.
+                
+                // Retrieve existing tasks from localStorage. If none, default to empty array.
+                const tasks = JSON.parse(localStorage.getItem('tasks')) || [];
+                
+                // Add the new task to the tasks array.
+                tasks.push(task);
+                
+                // Save the updated tasks array back to localStorage as a JSON string.
+                localStorage.setItem('tasks', JSON.stringify(tasks));
+                
             }else{
                 alert("Please enter the name of the task!");
             }
@@ -51,6 +65,15 @@
                 const li = checkbox.parentElement;
                 li.remove();
             });
+            
+            // After deleting selected tasks, update localStorage with the remaining tasks.
+            // Array.from() converts the NodeList to an array so we can use map().
+            // map() extracts the text content of each li (the task name).
+            const remainingTasks = Array.from(document.querySelectorAll('#list li')).map(li => li.textContent.trim());
+            
+            // Save the remaining tasks to localStorage.
+            localStorage.setItem('tasks', JSON.stringify(remainingTasks));
+            
             zmienWynik(); // Update the result after deletion
         }
 
@@ -75,7 +98,41 @@
         function setDef() {
             document.body.className = "text-center pt-40 flex flex-col items-center [background:bisque]";
             document.getElementById('addBtn').className = "transition-colors duration-300 p-5 bg-yellow-800 text-white rounded-md hover:bg-yellow-900 ";
-        }   
+        }
+
+        // Function to load tasks from localStorage when the page loads.
+        function loadTasks() {
+            // Retrieve tasks from localStorage. JSON.parse() converts the JSON string back to an array.
+            // If no tasks exist, default to an empty array.
+            const tasks = JSON.parse(localStorage.getItem('tasks')) || [];
+            
+            // For each task in the array, create the corresponding li element with checkbox.
+            tasks.forEach(task => {
+                const li = document.createElement('li');
+                const checkbox = document.createElement('input');
+                
+                checkbox.type = "checkbox";
+                checkbox.className = "mr-2 w-4 h-4 accent-blue-500";
+                // Add event listener to update the count when checkbox changes.
+                checkbox.addEventListener("change", zmienWynik);
+                
+                li.className = "flex items-center gap-2";
+                
+                // Append the checkbox and the task text to the li.
+                li.append(checkbox, document.createTextNode(task));
+                
+                // Add the li to the list.
+                document.getElementById('list').appendChild(li);
+            });
+            
+            // Update the task count and percentage after loading.
+            zmienWynik();
+        }
+
+        // When the window loads (page is ready), call loadTasks to populate the list.
+        window.onload = function() {
+            loadTasks();
+        };
     </script>
 </body>
 </html>
